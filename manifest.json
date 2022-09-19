@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+    "name": "Job Filter[in]g",
+    "description": "Custom filters for LinkedIn",
+    "version": "0.1",
+    "icons": {
+        "16": "/icons/filters_16.png",
+        "48": "/icons/filters_48.png",
+        "128": "/icons/filters_128.png"
+    },
+    "page_action": {
+        "default_icon": {
+            "16": "/icons/filters_16.png",
+            "48": "/icons/filters_48.png",
+            "128": "/icons/filters_128.png"
+        }
+    },
+    "content_scripts": [{
+        "matches": ["https://www.linkedin.com/jobs/search/*"],
+        "js": ["/scripts/filter.js"]
+    }]
+}
