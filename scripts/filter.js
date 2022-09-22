@@ -1,18 +1,68 @@
 console.log("hello world");
 
-function regex(desc){
-    const reg_ex = /([0-3]){1}.*-?(3)?\+?\s(years?).*(experience).*/;
-    var res = reg_ex.test(desc);
+var min_yoe = 0;
+var max_yoe = 9;
+var reg_ex = new RegExp(`([${min_yoe}-${max_yoe}])+.*-?(${max_yoe})?\\+?\\s(years?).*(experience).*`);
 
+// Function to update the regular expression if user modifies values
+function updateRegEx() {
+
+}
+// Add banner that will display match or not
+function addBanner() {
+    var job_desc = document.getElementsByClassName("jobs-unified-top-card t-14");
+    var job_header = job_desc[0];
+    var newElement = document.createElement('div');
+    newElement.innerHTML = '<p id = "warning-banner"></p>';
+    job_header.appendChild(newElement);
+}
+
+// Add YOE filter option
+function addFilter() {
+    //Get filter buttons
+    var filters = document.getElementsByClassName('search-reusables__filter-list');
+    console.log(filters);
+
+    var experience_filter = filters[0].children[3];
+
+    var yoe_filter = experience_filter.cloneNode(true);
+
+    //yoe_filter.innerText = yoe_filter.innerText.replace('Experience Level', 'Years of Experience');
+
+    console.log(experience_filter);
+
+    experience_filter.parentNode.insertBefore(yoe_filter, filters[0].children[4]);
+}
+
+// Function to compare regex to job description
+function regex(desc){
+    var res = reg_ex.test(desc);
+    console.log(reg_ex);
     console.log(res);
 
-    if(res == false){
-        alert('This Job does not match Years of Experience')
+    if(res == false) {
+        document.getElementById('warning-banner').innerHTML = '<div class="w3-panel w3-yellow" style="background-color: #e2e14c"><h3 style="color: #000000"> Warning!</h3><p style="color: #000000"> Years of Experience may not match!</p></div>';
+        //alert('This job does not match Years of Experience')
+    }
+    else {
+        document.getElementById('warning-banner').innerHTML = '<div class="w3-panel w3-green" style="background-color: #0ab86b"><h3 style="color: #000000"> Success!</h3><p style="color: #000000"> Years of Experience match!</p></div>';
     }
 }
 
+// Runs on url changes
+function onUrlChange() {
+  var jobs_desc = document.getElementById("job-details").innerText;
+  regex(jobs_desc);
+}
 
-let lastUrl = location.href; 
+
+window.onload = function() {
+    addBanner();
+    addFilter();
+};
+
+
+let lastUrl = location.href;
 new MutationObserver(() => {
   const url = location.href;
   if (url !== lastUrl) {
@@ -20,27 +70,9 @@ new MutationObserver(() => {
     onUrlChange();
   }
 }).observe(document, {subtree: true, childList: true});
+
+
  
-function onUrlChange() {
-  var jobs_desc = document.getElementById("job-details").innerText;
-  regex(jobs_desc);
-}
-
-
-// Add YOE filter option
-function addFilter(){
-    //Get filter buttons
-    var filters = document.getElementsByClassName('search-reusables__filter-list');
-    console.log(filters)
-
-    var experience_filter = filters[0].children[3];
-
-    experience_filter.innerHTML = experience_filter.innerHTML.replace('Experience Level', 'Years of Experience')
-
-    console.log(experience_filter)
-    
-    //TODO
-}
 
 // Compare regex to job desc
 function validateJobDesc(num, i){
