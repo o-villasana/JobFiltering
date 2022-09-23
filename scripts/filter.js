@@ -1,12 +1,29 @@
 console.log("hello world");
 
+var dmin_yoe = 0;
+var dmax_yoe = 9;
 var min_yoe = 0;
 var max_yoe = 9;
 var reg_ex = new RegExp(`([${min_yoe}-${max_yoe}])+.*-?(${max_yoe})?\\+?\\s(years?).*(experience).*`);
 
-// Function to update the regular expression if user modifies values
-function updateRegEx() {
-
+// Functions to update the regular expression if user modifies values
+function updateMinRegEx() {
+    console.log("min val changed");
+    min_yoe = document.getElementById("quantity-min").value;
+    if(!min_yoe) {
+        min_yoe = dmin_yoe;
+    }
+    reg_ex = new RegExp(`([${min_yoe}-${max_yoe}])+.*-?(${max_yoe})?\\+?\\s(years?).*(experience).*`);
+    console.log(reg_ex);
+}
+function updateMaxRegEx() {
+    console.log("max val changed");
+    max_yoe = document.getElementById("quantity-max").value;
+    if(!max_yoe) {
+        max_yoe = dmax_yoe;
+    }
+    reg_ex = new RegExp(`([${min_yoe}-${max_yoe}])+.*-?(${max_yoe})?\\+?\\s(years?).*(experience).*`);
+    console.log(reg_ex);
 }
 // Add banner that will display match or not
 function addBanner() {
@@ -21,17 +38,16 @@ function addBanner() {
 function addFilter() {
     //Get filter buttons
     var filters = document.getElementsByClassName('search-reusables__filter-list');
-    console.log(filters);
+    var min_yoe = document.createElement('div');
+    min_yoe.innerHTML = '<label for="quantity-min">Min YoE:</label><input type="number" id="quantity-min" name="quantity-min" min="0" max="9">';
+    filters[0].insertBefore(min_yoe, filters[0].children[4]);
 
-    var experience_filter = filters[0].children[3];
+    var max_yoe = document.createElement('div');
+    max_yoe.innerHTML = '<label for="quantity-max">Max YoE:</label><input type="number" id="quantity-max" name="quantity-max" min="0" max="10">';
+    filters[0].insertBefore(max_yoe, filters[0].children[5]);
 
-    var yoe_filter = experience_filter.cloneNode(true);
-
-    //yoe_filter.innerText = yoe_filter.innerText.replace('Experience Level', 'Years of Experience');
-
-    console.log(experience_filter);
-
-    experience_filter.parentNode.insertBefore(yoe_filter, filters[0].children[4]);
+    document.getElementById("quantity-min").addEventListener('change', updateMinRegEx);
+    document.getElementById("quantity-max").addEventListener('change', updateMaxRegEx);
 }
 
 // Function to compare regex to job description
@@ -55,12 +71,10 @@ function onUrlChange() {
   regex(jobs_desc);
 }
 
-
 window.onload = function() {
     addBanner();
     addFilter();
 };
-
 
 let lastUrl = location.href;
 new MutationObserver(() => {
@@ -72,8 +86,9 @@ new MutationObserver(() => {
 }).observe(document, {subtree: true, childList: true});
 
 
- 
 
+
+// BELOW FUNCTIONS DONT DO ANYTHING CURRENTLY :(
 // Compare regex to job desc
 function validateJobDesc(num, i){
     
