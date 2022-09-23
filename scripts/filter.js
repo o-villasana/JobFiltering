@@ -39,11 +39,11 @@ function addFilter() {
     //Get filter buttons
     var filters = document.getElementsByClassName('search-reusables__filter-list');
     var min_yoe = document.createElement('div');
-    min_yoe.innerHTML = '<label for="quantity-min">Min YoE:</label><input type="number" id="quantity-min" name="quantity-min" min="0" max="9">';
+    min_yoe.innerHTML = '<label for="quantity-min">Min YoE:</label><input type="number" id="quantity-min" name="quantity-min" min="0" max="9" placeholder="0">';
     filters[0].insertBefore(min_yoe, filters[0].children[4]);
 
     var max_yoe = document.createElement('div');
-    max_yoe.innerHTML = '<label for="quantity-max">Max YoE:</label><input type="number" id="quantity-max" name="quantity-max" min="0" max="10">';
+    max_yoe.innerHTML = '<label for="quantity-max">Max YoE:</label><input type="number" id="quantity-max" name="quantity-max" min="0" max="10" placeholder="10+">';
     filters[0].insertBefore(max_yoe, filters[0].children[5]);
 
     document.getElementById("quantity-min").addEventListener('change', updateMinRegEx);
