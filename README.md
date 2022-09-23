@@ -9,3 +9,8 @@ Did you know that LinkedIn Job searches return up to 1,000 results? But what goo
     ![load extensions](./images/load_ext.png)
 3. Navigate to the cloned JobFiltering repo and click **`Select Folder`**. You should be able to see the extensions added under **From other sources**:
     ![extensions](./images/added_ext.png)
+
+### After installing the extension, navigate to linkedin job search and you should see new filter options added (refresh if filters are not displayed):
+
+![linkedin](./images/inuse_ext.png)
+
