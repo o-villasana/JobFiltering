@@ -65,7 +65,7 @@ function regex(desc){
         {
             document.getElementById('warning-banner').innerHTML = '<div class="w3-panel w3-yellow" style="background-color: #e2e14c"><h3 style="color: #000000"> Warning!</h3><p style="color: #000000"> No years of experience qualification found in description!</p></div>';
         } else {
-            document.getElementById('warning-banner').innerHTML = '<div class="w3-panel w3-yellow" style="background-color: #e2e14c"><h3 style="color: #000000"> Warning!</h3><p style="color: #000000"> Years of experience may not match!</p></div>';
+            document.getElementById('warning-banner').innerHTML = '<div class="w3-panel w3-yellow" style="background-color: #ffa500"><h3 style="color: #000000"> Warning!</h3><p style="color: #000000"> Years of experience may not match!</p></div>';
             //alert('This job does not match Years of Experience')
         }
     }
