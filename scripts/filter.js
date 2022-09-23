@@ -4,7 +4,8 @@ var dmin_yoe = 0;
 var dmax_yoe = 9;
 var min_yoe = 0;
 var max_yoe = 9;
-var reg_ex = new RegExp(`([${min_yoe}-${max_yoe}])+.*-?(${max_yoe})?\\+?\\s(years?).*(experience).*`);
+var reg_ex = new RegExp(`([${min_yoe}-${max_yoe}])+.*-?(${max_yoe})?\\+?\\s(years?).*(experience)?.*`);
+var reg_ex_yoe = new RegExp(`(years?).*(experience)?.*`);
 
 // Functions to update the regular expression if user modifies values
 function updateMinRegEx() {
@@ -15,7 +16,9 @@ function updateMinRegEx() {
     }
     reg_ex = new RegExp(`([${min_yoe}-${max_yoe}])+.*-?(${max_yoe})?\\+?\\s(years?).*(experience).*`);
     console.log(reg_ex);
+    onUrlChange();
 }
+
 function updateMaxRegEx() {
     console.log("max val changed");
     max_yoe = document.getElementById("quantity-max").value;
@@ -24,6 +27,7 @@ function updateMaxRegEx() {
     }
     reg_ex = new RegExp(`([${min_yoe}-${max_yoe}])+.*-?(${max_yoe})?\\+?\\s(years?).*(experience).*`);
     console.log(reg_ex);
+    onUrlChange();
 }
 // Add banner that will display match or not
 function addBanner() {
@@ -37,14 +41,14 @@ function addBanner() {
 // Add YOE filter option
 function addFilter() {
     //Get filter buttons
-    var filters = document.getElementsByClassName('search-reusables__filter-list');
+    var filters = document.getElementsByClassName('grid grid--no-gutters');
     var min_yoe = document.createElement('div');
-    min_yoe.innerHTML = '<label for="quantity-min">Min YoE:</label><input type="number" id="quantity-min" name="quantity-min" min="0" max="9" placeholder="0">';
-    filters[0].insertBefore(min_yoe, filters[0].children[4]);
+    min_yoe.innerHTML = '<label for="quantity-min" style="padding: 4px 4px; border: 1px solid rgba(255, 255, 255, 1); border-radius: 10px; display: inline-block; width: 75px; text-align: center; font-weight: 600; color: #ffffff;">Min YoE:</label><input type="number" id="quantity-min" name="quantity-min" min="0" max="9" placeholder="0" style="display: inline-block; width: 75px;"><p style="padding: 4px 6px; display: inline-block"></p>';
+    filters[0].appendChild(min_yoe);
 
     var max_yoe = document.createElement('div');
-    max_yoe.innerHTML = '<label for="quantity-max">Max YoE:</label><input type="number" id="quantity-max" name="quantity-max" min="0" max="10" placeholder="10+">';
-    filters[0].insertBefore(max_yoe, filters[0].children[5]);
+    max_yoe.innerHTML = '<label for="quantity-max" style="padding: 4px 4px; border: 1px solid rgba(255, 255, 255, 1); border-radius: 10px; display: inline-block; width: 75px; text-align: center; font-weight: 600; color: #ffffff;">Max YoE:</label><input type="number" id="quantity-max" name="quantity-max" min="0" max="10" placeholder="10+" style="display: inline-block; width: 75px;">';
+    filters[0].appendChild(max_yoe); //, filters[0].children[5]);
 
     document.getElementById("quantity-min").addEventListener('change', updateMinRegEx);
     document.getElementById("quantity-max").addEventListener('change', updateMaxRegEx);
@@ -57,11 +61,16 @@ function regex(desc){
     console.log(res);
 
     if(res == false) {
-        document.getElementById('warning-banner').innerHTML = '<div class="w3-panel w3-yellow" style="background-color: #e2e14c"><h3 style="color: #000000"> Warning!</h3><p style="color: #000000"> Years of Experience may not match!</p></div>';
-        //alert('This job does not match Years of Experience')
+        if(reg_ex_yoe.test(desc) == false)
+        {
+            document.getElementById('warning-banner').innerHTML = '<div class="w3-panel w3-yellow" style="background-color: #e2e14c"><h3 style="color: #000000"> Warning!</h3><p style="color: #000000"> No years of experience qualification found in description!</p></div>';
+        } else {
+            document.getElementById('warning-banner').innerHTML = '<div class="w3-panel w3-yellow" style="background-color: #e2e14c"><h3 style="color: #000000"> Warning!</h3><p style="color: #000000"> Years of experience may not match!</p></div>';
+            //alert('This job does not match Years of Experience')
+        }
     }
     else {
-        document.getElementById('warning-banner').innerHTML = '<div class="w3-panel w3-green" style="background-color: #0ab86b"><h3 style="color: #000000"> Success!</h3><p style="color: #000000"> Years of Experience match!</p></div>';
+        document.getElementById('warning-banner').innerHTML = '<div class="w3-panel w3-green" style="background-color: #0ab86b"><h3 style="color: #000000"> Success!</h3><p style="color: #000000"> Years of experience match!</p></div>';
     }
 }
 
@@ -74,6 +83,7 @@ function onUrlChange() {
 window.onload = function() {
     addBanner();
     addFilter();
+    onUrlChange();
 };
 
 let lastUrl = location.href;
